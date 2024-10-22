@@ -31,8 +31,14 @@ def clean_text(text: list[str]) -> list[list[str]]:
     """Transform text into a list of terms for each sentence"""
     sentences: list[list[str]] = []
     for line in text:
+        #word_tokenize returns words in all lowercase
         sentence = [word.casefold()
                     for word in nltk.word_tokenize(line)]
+        #the word_tokenize function isolates symbols that are outside of words
+        iteration_copy:list=sentence.copy()
+        for word in iteration_copy:
+            if len(word)<2 and not word.isalnum():
+                sentence.remove(word)
         if len(sentence) > 0:
             sentences.append(sentence)
     return sentences
