@@ -36,9 +36,14 @@ def clean_text(text: list[str]) -> list[list[str]]:
                     for word in nltk.word_tokenize(line)]
         #the word_tokenize function isolates symbols that are outside of words
         iteration_copy:list=sentence.copy()
-        for word in iteration_copy:
-            if len(word)<2 and not word.isalnum():
-                sentence.remove(word)
+        for index,word in enumerate(iteration_copy):
+            new:str=sentence.pop(index)
+            for character in word:
+                if not character.isalnum():
+                    new=''.join(new.split(character))
+            sentence.insert(index,new)
+        for _ in range(sentence.count('')):
+            sentence.remove('')
         if len(sentence) > 0:
             sentences.append(sentence)
     return sentences
