@@ -143,6 +143,10 @@ def score_sentences(tf_matrix: list[dict], idf_matrix: dict[str, float], sentenc
     Returns a table whose keys are the indices of sentences of the text
     and values are the sum of tf-idf scores of each word in the sentence"""
     scores: list[float] = []
+    tf_idf_matrix:list=[calculate_tf_idf(sentence,idf_matrix) for sentence in tf_matrix]
+    for index, sentence in enumerate(sentences):
+        total_tf_idf:float=sum(tf_idf_matrix[index].values())
+        scores.append(total_tf_idf/len(sentence))
     return scores
 
 
