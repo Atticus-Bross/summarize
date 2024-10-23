@@ -135,7 +135,16 @@ def calculate_idf(sentences: list[list[str]]) -> dict[str, float]:
         matrix[word]=log(matrix[word])
     return matrix
 
+def calculate_tf_idf(tf:dict,idf_matrix:[str,float])->dict[str,float]:
+    """calculate_tf_idf(tf, idf_matrix)
+    Calculates the tf-idf of all the terms in tf
 
+    tf: a dictionary that contains the term frequency of a series of a series of terms
+    idf_matrix: a dictionary contains the inverse document frequency of a series of terms"""
+    tf_idf_matrix:dict={}
+    for term in tf.keys():
+        tf_idf_matrix[term]=tf[term]*idf_matrix[term]
+    return tf_idf_matrix
 # [TODO] Implement sentence scoring
 def score_sentences(tf_matrix: list[dict], idf_matrix: dict[str, float], sentences: list[list[str]]) -> list[float]:
     """Score each sentence for importance based on the terms it contains.

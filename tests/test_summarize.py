@@ -80,6 +80,13 @@ def test_calculate_idf()->None:
     assert isclose(test2['social'],log(112/22))
     assert isclose(test2['a'],log(112/51))
     assert choice(list(test2.keys())) in deep_unpack(test)
+def test_calculate_tf_idf()->None:
+    """test_calculate_tf_idf()
+    Tests the calculate_tf_idf function"""
+    assert calculate_tf_idf({'a':1.0},{'a':2.0})=={'a':2.0}
+    assert calculate_tf_idf({'back':3.0,'line':2.0,'test':4.0},{'test':2.0,'back':1.0,'line':3.0})=={'back':3.0,'line':6.0,'test':8.0}
+    assert calculate_tf_idf({'back': 3.0, 'line': 2.0, 'test': 4.0}, {'skd':1.2,'test': 2.0,'sda':5.4, 'back': 1.0, 'line': 3.0,'lkj':9.8}) == {
+        'back': 3.0, 'line': 6.0, 'test': 8.0}
 test_non_alnums()
 test_many_split()
 test_clean_word()
@@ -89,3 +96,4 @@ test_clean_sentence()
 test_clean_text()
 test_calculate_tf()
 test_calculate_idf()
+test_calculate_tf_idf()
