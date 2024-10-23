@@ -11,6 +11,7 @@ Options:
   -h --help            Show this screen.
   -o --output=<file>   Write output to file instead of stdout.
 """
+
 from docopt import docopt
 import nltk
 import sys
@@ -24,7 +25,38 @@ def load_document(textfile: TextIO) -> list[str]:
     text = [line.strip() for line in textfile.readlines()]
     text = nltk.sent_tokenize(' '.join(text))
     return text
+def non_alnums(string:str)->str:
+    """non_alnums(string)
+    Gives the characters in a string that are not alphanumeric
 
+    string: the string"""
+    non_alnums2:str=''
+    for character in string:
+        if not character.isalnum() and character not in non_alnums2:
+            non_alnums2=non_alnums2+character
+    return non_alnums2
+def many_split(string:str,chars:list)->list[str]:
+    """many_split(string, chars)
+    Splits a string on many characters
+
+    string: the string to be split
+    chars: the characters to be split on (expressed as a list)"""
+    if len(chars)<1:
+        return [string]
+    chars2:list=chars.copy()
+    split=string.split(chars2.pop(0))
+    full_split:list=[]
+    for word in split:
+        full_split.extend(many_split(word,chars2))
+    return full_split
+def clean_word(word:str)->str|list[str]:
+    """clean_word(word)
+    Cleans up a word, sometimes splitting it into multiple words
+
+    word: the word to be cleaned up"""
+    to_remove:str=non_alnums(word)
+    cleaned:str|list=word.strip(to_remove)
+    return many_split(cleaned)
 def clean_sentence(sentence:list[str])->list[str]:
     """clean_sentence(sentence)
     Cleans up a sentence
