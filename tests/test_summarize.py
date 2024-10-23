@@ -87,6 +87,17 @@ def test_calculate_tf_idf()->None:
     assert calculate_tf_idf({'back':3.0,'line':2.0,'test':4.0},{'test':2.0,'back':1.0,'line':3.0})=={'back':3.0,'line':6.0,'test':8.0}
     assert calculate_tf_idf({'back': 3.0, 'line': 2.0, 'test': 4.0}, {'skd':1.2,'test': 2.0,'sda':5.4, 'back': 1.0, 'line': 3.0,'lkj':9.8}) == {
         'back': 3.0, 'line': 6.0, 'test': 8.0}
+def test_score_sentences()->None:
+    """test_score_sentences()
+    Tests the score_sentences function"""
+    with open(r'C:\Users\user\PycharmProjects\summarize\examples\stories.md','r',encoding='utf-8') as mdfile:
+        clean:list=load_document(mdfile)
+    clean=clean_text(clean)
+    tf:list=calculate_tf(clean)
+    idf:dict=calculate_idf(clean)
+    test:list=score_sentences(tf,idf,clean)
+    print(sum(calculate_tf_idf(tf[30],idf).values())/len(clean[30]))
+    assert isclose(test[30],0.14230652336740154)
 test_non_alnums()
 test_many_split()
 test_clean_word()
@@ -97,3 +108,4 @@ test_clean_text()
 test_calculate_tf()
 test_calculate_idf()
 test_calculate_tf_idf()
+test_score_sentences()
