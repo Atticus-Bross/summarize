@@ -1,9 +1,10 @@
 """Module testing the Summarize Functions
 
 Completed by Atticus Bross on 2024-10-29 for DS-1043"""
-from os import remove
 
 from summarize import *
+from math import isclose
+from random import randint
 def test_non_alnums()->None:
     """test_non_alnums()
     Tests the non_alnums function"""
@@ -52,9 +53,27 @@ def test_clean_text()->None:
     assert clean_text(['They may be replaced by new “federated” platforms.'])==[['they','may','be','replaced','by','new','federated','platforms']]
     assert clean_text(['Illustration by Edmon de Haro','Jürgen Habermas, the German philosopher who coined the term _legitimization crisis_,'])==[['illustration','by','edmon','de','haro'],['jürgen','habermas','the','german','philosopher','who','coined','the','term','legitimization','crisis']]
     assert clean_text(['etc. and/the mr.','To/from/cube [qr] i/o?','(the#get&^where}'])==[['etc','and','the','mr'],['to','from','cube','qr','i','o'],['the','get','where']]
+def test_calculate_tf()->None:
+    """test_calculate_tf()
+    Tests the calculate_tf function"""
+    with open(r'C:\Users\user\PycharmProjects\summarize\examples\social.md','r',encoding='utf-8') as mdfile:
+        test:list=load_document(mdfile)
+    test=clean_text(test)
+    test2=calculate_tf(test)
+    assert isclose(test2[0]['created'],1/194)
+    assert isclose(test2[10]['as'],3/66)
+    assert isclose(test2[20]['no'],3/64)
+    assert len(test2)==len(test)
+    index:int=randint(0,len(test)-1)
+    test_choice:list=test[index]
+    test2_choice:dict=test2[index]
+    for word in test2_choice.keys():
+        assert word in test_choice
 test_non_alnums()
 test_many_split()
 test_clean_word()
 test_deep_unpack()
 test_remove_all()
 test_clean_sentence()
+test_clean_text()
+test_calculate_tf()

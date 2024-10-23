@@ -114,6 +114,11 @@ def calculate_tf(sentences: list[list[str]]) -> list[dict]:
     Returns a table whose keys are the indices of sentences of the text
     and values are dictionaries of terms and their tf values."""
     matrix: list[dict] = []
+    for index, sentence in enumerate(sentences):
+        matrix.append({})
+        terms:set=set(sentence)
+        for term in terms:
+            matrix[index][term]=sentence.count(term)/len(sentence)
     return matrix
 
 
