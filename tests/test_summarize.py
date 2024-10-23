@@ -40,6 +40,12 @@ def test_remove_all()->None:
     assert remove_all([1],1)==[]
     assert remove_all([1,1,1,1],1)==[]
     assert remove_all([1,2,3,3,3,4],3)==[1,2,4]
+def test_clean_sentence()->None:
+    """test_clean_sentence()
+    Tests the clean_sentence function"""
+    assert clean_sentence([word.casefold() for word in nltk.word_tokenize('They may be replaced by new “federated” platforms.')])==['they','may','be','replaced','by','new','federated','platforms']
+    assert clean_sentence([word.casefold() for word in nltk.word_tokenize('Jürgen Habermas, the German philosopher who coined the term _legitimization crisis_,')])==['jürgen','habermas','the','german','philosopher','who','coined','the','term','legitimization','crisis']
+    assert clean_sentence([word.casefold() for word in nltk.word_tokenize('etc. and/the mr.')])==['etc','and','the','mr']
 def test_clean_text()->None:
     """test_clean_text()
     Tests the clean_text function"""
@@ -51,3 +57,4 @@ test_many_split()
 test_clean_word()
 test_deep_unpack()
 test_remove_all()
+test_clean_sentence()
