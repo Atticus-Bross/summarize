@@ -20,7 +20,7 @@ from collections.abc import Callable
 from typing import TextIO
 from typing import Sequence
 from types import UnionType
-
+from math import log
 def load_document(textfile: TextIO) -> list[str]:
     """Reads a text file and returns a list of sentences"""
     text = [line.strip() for line in textfile.readlines()]
@@ -132,6 +132,7 @@ def calculate_idf(sentences: list[list[str]]) -> dict[str, float]:
         #the number of Trues in is_in is equal to the number of sentences that contain word
         is_in:list=list(map(lambda x:word in x,sentences))
         matrix[word]=len(sentences)/is_in.count(True)
+        matrix[word]=log(matrix[word])
     return matrix
 
 
