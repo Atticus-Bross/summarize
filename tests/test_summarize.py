@@ -15,6 +15,12 @@ def test_many_split()->None:
     assert many_split('abc|efg|hij',['|'])==['abc','efg','hij']
     assert many_split('abc|efg!hij',['|','!'])==['abc','efg','hij']
     assert many_split('ab?cd|ef%gh|ij?kl|mn%op',['%','|','?'])==['ab','cd','ef','gh','ij','kl','mn','op']
+    assert many_split('abcdef',['9','p','['])==['abcdef']
+    assert many_split('[}|:*&',[])==['[}|:*&']
+def test_clean_word()->None:
+    """test_clean_word()
+    Tests the clean_word function"""
+    assert clean_word('|abc|efg|hij|')==['abc','efg','hij']
 def test_clean_text()->None:
     """test_clean_text()
     Tests the clean_text function"""

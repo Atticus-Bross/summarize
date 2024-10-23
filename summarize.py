@@ -49,14 +49,14 @@ def many_split(string:str,chars:list)->list[str]:
     for word in split:
         full_split.extend(many_split(word,chars2))
     return full_split
-def clean_word(word:str)->str|list[str]:
+def clean_word(word:str)->list[str]:
     """clean_word(word)
     Cleans up a word, sometimes splitting it into multiple words
 
     word: the word to be cleaned up"""
     to_remove:str=non_alnums(word)
-    cleaned:str|list=word.strip(to_remove)
-    return many_split(cleaned)
+    cleaned:str=word.strip(to_remove)
+    return many_split(cleaned,list(to_remove))
 def clean_sentence(sentence:list[str])->list[str]:
     """clean_sentence(sentence)
     Cleans up a sentence
