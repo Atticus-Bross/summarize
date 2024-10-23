@@ -25,7 +25,14 @@ def load_document(textfile: TextIO) -> list[str]:
     text = nltk.sent_tokenize(' '.join(text))
     return text
 
+def clean_sentence(sentence:list[str])->list[str]:
+    """clean_sentence(sentence)
+    Cleans up a sentence
 
+    sentence: the sentence to clean up"""
+    cleaned:list=[clean_word(word) for word in sentence]
+    cleaned=deep_unpack(cleaned)
+    return remove_all(cleaned,'')
 # [TODO] Remove non-word symbols from terms, maybe more?
 def clean_text(text: list[str]) -> list[list[str]]:
     """Transform text into a list of terms for each sentence"""
@@ -34,16 +41,7 @@ def clean_text(text: list[str]) -> list[list[str]]:
         #word_tokenize returns words in all lowercase
         sentence = [word.casefold()
                     for word in nltk.word_tokenize(line)]
-        #the word_tokenize function isolates symbols that are outside of words
-        iteration_copy:list=sentence.copy()
-        for index,word in enumerate(iteration_copy):
-            new:str=sentence.pop(index)
-            for character in word:
-                if not character.isalnum():
-                    new=''.join(new.split(character))
-            sentence.insert(index,new)
-        for _ in range(sentence.count('')):
-            sentence.remove('')
+        sentence:list=clean_sentence(sentence)
         if len(sentence) > 0:
             sentences.append(sentence)
     return sentences
