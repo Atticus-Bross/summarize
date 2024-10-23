@@ -21,6 +21,15 @@ def test_clean_word()->None:
     """test_clean_word()
     Tests the clean_word function"""
     assert clean_word('|abc|efg|hij|')==['abc','efg','hij']
+    assert clean_word('{}{}|}{}abc|efg!hij%^&*')==['abc','efg','hij']
+    assert clean_word('[}|:*&')==['']
+def test_deep_unpack() -> None:
+    """test_deep_unpack()
+    Tests the deep_unpack function"""
+    assert deep_unpack([[None, 'abc', 1.2], [True, 3], ['ghf']]) == [None, 'abc', 1.2, True, 3, 'ghf']
+    assert deep_unpack([[['abc', None], [], 2.34], [[], [True, 3]]]) == ['abc', None, 2.34, True, 3]
+    assert deep_unpack([[(1, 2, 3), ('abc', 'efg')], ['abc']], tuple) == [(1, 2, 3), ('abc', 'efg'), 'a', 'b', 'c']
+    assert deep_unpack([[(1, 2, 3), ('abc', 'efg')], ['abc']], tuple | str) == [(1, 2, 3), ('abc', 'efg'), 'abc']
 def test_clean_text()->None:
     """test_clean_text()
     Tests the clean_text function"""
@@ -29,3 +38,5 @@ def test_clean_text()->None:
     assert clean_text(['etc. and/the mr.','To/from/cube [qr] i/o?','(the#get&^where}'])==[['etc','and','the','mr'],['to','from','cube','qr','i','o'],['the','get','where']]
 test_non_alnums()
 test_many_split()
+test_clean_word()
+test_deep_unpack()

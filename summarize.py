@@ -18,7 +18,8 @@ import sys
 from collections import defaultdict
 from collections.abc import Callable
 from typing import TextIO
-
+from typing import Sequence
+from types import UnionType
 
 def load_document(textfile: TextIO) -> list[str]:
     """Reads a text file and returns a list of sentences"""
@@ -49,6 +50,23 @@ def many_split(string:str,chars:list)->list[str]:
     for word in split:
         full_split.extend(many_split(word,chars2))
     return full_split
+def deep_unpack(seq: Sequence[Sequence], ignores: type | UnionType = str) -> list:
+    """deep_unpack(seq, ignores=str)
+    Unpacks a sequence of sequences into a single sequence
+
+    seq: the sequence
+    ignores: the types of sequences to ignore"""
+    unpacked: list = []
+    for element in seq:
+        if isinstance(element, Sequence) and not isinstance(element, ignores):
+            # this is to avoid the infinite recursion that occurs because a string contains a string which contains a string, etc.
+            if isinstance(element, str) and len(element) == 1:
+                unpacked.append(element)
+            else:
+                unpacked.extend(deep_unpack(element, ignores))
+        else:
+            unpacked.append(element)
+    return unpacked
 def clean_word(word:str)->list[str]:
     """clean_word(word)
     Cleans up a word, sometimes splitting it into multiple words
