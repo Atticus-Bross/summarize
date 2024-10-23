@@ -127,6 +127,11 @@ def calculate_idf(sentences: list[list[str]]) -> dict[str, float]:
     """Calculate the Inverse `Document'(Sentence) Frequency of each term.
     Returns a table of terms and their idf values."""
     matrix: dict[str, float] = defaultdict(float)
+    words:set=set(deep_unpack(sentences))
+    for word in words:
+        #the number of Trues in is_in is equal to the number of sentences that contain word
+        is_in:list=list(map(lambda x:word in x,sentences))
+        matrix[word]=len(sentences)/is_in.count(True)
     return matrix
 
 

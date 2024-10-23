@@ -4,7 +4,7 @@ Completed by Atticus Bross on 2024-10-29 for DS-1043"""
 
 from summarize import *
 from math import isclose
-from random import randint
+from random import randint,choice
 def test_non_alnums()->None:
     """test_non_alnums()
     Tests the non_alnums function"""
@@ -59,7 +59,7 @@ def test_calculate_tf()->None:
     with open(r'C:\Users\user\PycharmProjects\summarize\examples\social.md','r',encoding='utf-8') as mdfile:
         test:list=load_document(mdfile)
     test=clean_text(test)
-    test2=calculate_tf(test)
+    test2:list=calculate_tf(test)
     assert isclose(test2[0]['created'],1/194)
     assert isclose(test2[10]['as'],3/66)
     assert isclose(test2[20]['no'],3/64)
@@ -69,6 +69,17 @@ def test_calculate_tf()->None:
     test2_choice:dict=test2[index]
     for word in test2_choice.keys():
         assert word in test_choice
+def test_calculate_idf()->None:
+    """test_calculate_idf()
+    Tests the calculate_idf function"""
+    with open(r'C:\Users\user\PycharmProjects\summarize\examples\social.md','r',encoding='utf-8') as mdfile:
+        test:list=load_document(mdfile)
+    test=clean_text(test)
+    test2:dict=calculate_idf(test)
+    assert isclose(test2['https'],112/30)
+    assert isclose(test2['social'],112/22)
+    assert isclose(test2['a'],112/51)
+    assert choice(list(test2.keys())) in deep_unpack(test)
 test_non_alnums()
 test_many_split()
 test_clean_word()
@@ -77,3 +88,4 @@ test_remove_all()
 test_clean_sentence()
 test_clean_text()
 test_calculate_tf()
+test_calculate_idf()
