@@ -75,6 +75,16 @@ def clean_word(word:str)->list[str]:
     to_remove:str=non_alnums(word)
     cleaned:str=word.strip(to_remove)
     return many_split(cleaned,list(to_remove))
+def remove_all(l:list,value)->list:
+    """remove_all(l, value)
+    Removes all instances of a value
+
+    l: the list
+    value: the value to remove"""
+    return_list:list=l.copy()
+    for _ in range(return_list.count(value)):
+        return_list.remove(value)
+    return return_list
 def clean_sentence(sentence:list[str])->list[str]:
     """clean_sentence(sentence)
     Cleans up a sentence

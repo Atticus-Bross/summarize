@@ -1,6 +1,8 @@
 """Module testing the Summarize Functions
 
 Completed by Atticus Bross on 2024-10-29 for DS-1043"""
+from os import remove
+
 from summarize import *
 def test_non_alnums()->None:
     """test_non_alnums()
@@ -30,6 +32,14 @@ def test_deep_unpack() -> None:
     assert deep_unpack([[['abc', None], [], 2.34], [[], [True, 3]]]) == ['abc', None, 2.34, True, 3]
     assert deep_unpack([[(1, 2, 3), ('abc', 'efg')], ['abc']], tuple) == [(1, 2, 3), ('abc', 'efg'), 'a', 'b', 'c']
     assert deep_unpack([[(1, 2, 3), ('abc', 'efg')], ['abc']], tuple | str) == [(1, 2, 3), ('abc', 'efg'), 'abc']
+def test_remove_all()->None:
+    """test_remove_all()
+    Tests the remove_all function"""
+    assert remove_all([1,2,3,4],4)==[1,2,3]
+    assert remove_all([1,2,3,3,3,4],5)==[1,2,3,3,3,4]
+    assert remove_all([1],1)==[]
+    assert remove_all([1,1,1,1],1)==[]
+    assert remove_all([1,2,3,3,3,4],3)==[1,2,4]
 def test_clean_text()->None:
     """test_clean_text()
     Tests the clean_text function"""
@@ -40,3 +50,4 @@ test_non_alnums()
 test_many_split()
 test_clean_word()
 test_deep_unpack()
+test_remove_all()
