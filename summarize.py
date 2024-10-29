@@ -4,12 +4,13 @@
 Summarize a document using extractive text summarization via tf-idf.
 
 Usage:
-  summarize [-o <file> | --output=<file>] [<input-file>]
+  summarize [-o <file> | --output=<file>] [-f <function> | --function=<function>] [<input-file>]
   summarize (-h | --help)
 
 Options:
   -h --help            Show this screen.
   -o --output=<file>   Write output to file instead of stdout.
+  -f --function=<function> Specify an inclusion function
 """
 
 from docopt import docopt
@@ -190,7 +191,10 @@ if __name__ == '__main__':
     # Threshold value may need adjustment. It might be appropriate to expand this
     # to allow inclusion function and inclusion criteria to be specified as
     # commandline options
-    func = lambda text, scores: threshold_inclusion(text, scores, threshold=1)
+    if arguments['--function']:
+        func = eval(arguments['--function'])
+    else:
+        func = lambda text, scores: threshold_inclusion(text, scores, threshold=1)
 
     if arguments['--output']:
         with open(arguments['--output'], 'w', encoding='utf-8') as outfile:
