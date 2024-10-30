@@ -8,9 +8,9 @@ Usage:
   summarize (-h | --help)
 
 Options:
-  -h --help            Show this screen.
-  -o --output=<file>   Write output to file instead of stdout.
-  -f --function=<function> Specify an inclusion function
+  -h --help                Show this screen.
+  -o --output=<file>       Write output to file instead of stdout.
+  -f --function=<function> Specify the body of an inclusion function
 """
 
 from docopt import docopt
@@ -191,8 +191,14 @@ if __name__ == '__main__':
     # Threshold value may need adjustment. It might be appropriate to expand this
     # to allow inclusion function and inclusion criteria to be specified as
     # commandline options
+    #defining func here because pycharm does not understand why it will always be created in the if statements below
+    func = lambda:1
     if arguments['--function']:
-        func = eval(arguments['--function'])
+        lines:list=arguments['--function'].split(r'\n')
+        #add indentation so exec will work properly
+        lines=list(map(lambda x:' '+x,lines))
+        lines.insert(0,'def func(text, scores):')
+        exec('\n'.join(lines))
     else:
         func = lambda text, scores: threshold_inclusion(text, scores, threshold=1)
 
